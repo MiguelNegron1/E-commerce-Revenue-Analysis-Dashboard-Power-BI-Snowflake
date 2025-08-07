@@ -45,19 +45,54 @@ To identify the key products, customer segments, and countries that drive the mo
 
 ---
 
-## 📁 Folder Structure
+## 🧪 Data Modeling and Snowflake SQL Analysis
 
-/SQL → Snowflake SQL queries
-/Dashboard → Power BI .pbix file + dashboard screenshot
-/Data → (Optional) Cleaned .csv files or mock data
-/README.md → Project documentation
+The data cleaning, exploratory analysis (EDA), and modeling phase was conducted entirely in **Snowflake SQL** before visualization in Power BI. This ensured the dataset was analysis-ready, consistent, and optimized for aggregation.
+
+
+- Each raw table contained approximately **520,000 rows** of transactional data.
+- Null values were found only in the `Description` and `CustomerID` columns.
+- The `Country` column required normalization due to repeated values in different formats.
+- The `Description` column included several **non-product transactions** such as gift vouchers, postage, discounts, manual adjustments, and test records.
 
 
 ---
 
-## 🚀 Next Steps (Optional Enhancements)
+## 🔄 Automation and Refresh Strategy (Simulated)
 
-- Add scheduled refresh automation using Power BI Service
+Although this project uses a static dataset (archived from 2019), its structure was designed to simulate a scalable, production-ready data pipeline.
+
+In a real-world environment, data automation would be implemented depending on business needs and infrastructure:
+
+- **Option A: Live Connection (DirectQuery)**  
+  Power BI would connect directly to Snowflake and pull fresh data each time the report is viewed.  
+  Ideal for real-time dashboards, frequent updates, or scenarios where stakeholders need the most recent data (e.g., inventory, live sales).  
+  This approach ensures live data but may incur higher costs due to more frequent queries and slower performance if not optimized.
+
+- **Option B: Scheduled Refresh (Import Mode)**  
+  Power BI would import data from Snowflake and refresh it at scheduled intervals (e.g., daily or weekly) using the Power BI Service.  
+  This is a more cost-effective and performant option for dashboards where near-real-time data isn't required.  
+  Businesses often choose this approach when data latency of a few hours is acceptable.
+
+This project demonstrates the upstream logic typically required for either approach:
+
+- **Data Cleaning and Modeling** were performed in both **Snowflake SQL** and **Power BI**.  
+  - In Snowflake, raw data from two separate years was cleaned and merged into a unified **fact table** using SQL.  
+  - Business logic such as revenue calculation (`quantity * unit_price`) was implemented both upstream (SQL) and in Power BI using DAX.
+
+- **Dynamic Filters and Interactivity** were built into the Power BI dashboard, enabling simulated real-time exploration by country, segment, and product.
+
+While actual automation was not implemented due to the static nature of the dataset, the pipeline design reflects best practices for scalable enterprise analytics.
+
+---
+
+## 📁 Folder Structure
+
+/SQL → Snowflake SQL queries  
+/Dashboard → Power BI .pbix file + dashboard screenshot  
+/Data → (Optional) Cleaned .csv files or mock data  
+/README.md → Project documentation
+
 
 ---
 
